@@ -4,8 +4,6 @@ const { User } = require('../../models/user');
 
 let server;
 
-// TODO: Abstract request server logic into a function
-
 describe('/api/users', () => {
   beforeEach(() => {
     server = require('../../index');

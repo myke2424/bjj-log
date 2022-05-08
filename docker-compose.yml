@@ -1,19 +1,29 @@
 version: '3'
 services:
-  api:
-    build: ./server
-    ports:
-      - '8080:8080'
-    depends_on:
-      - db
-    container_name: bjj-api
-  client:
-    build: ./client
-    ports:
-      - '3000:3000'
-    container_name: bjj-client
   db:
     image: mongo
     ports:
       - '27017:27017'
     container_name: bjj-db
+  api:
+    build: ./server
+    ports:
+      - '8080:8080'
+    container_name: bjj-api
+    volumes:
+      - /app/node_modules
+      - ./server:/app
+    depends_on:
+      - db
+  client:
+    build: ./client
+    stdin_open: true
+    ports:
+      - '3000:3000'
+    container_name: bjj-client
+    volumes:
+       - /app/node_modules
+       - ./client:/app
+    depends_on:
+      - api
+      - db
